@@ -1,26 +1,39 @@
 <template>
-  <img alt="Vue logo" src="./assets/logo.png">
-  <HelloWorld msg="Welcome to Your Vue.js App"/>
+  <the-navbar></the-navbar>
+  <div class="container with-nav">
+    <div class="card">
+      <h1>{{upHeader}}</h1>
+      <h2>Счетчик {{ counter }} ({{doubleCounter}})</h2>
+      <button class="btn primary" @click="inc">+</button>
+      <button class="btn danger" @click="incCounterAsync({val: 15, delay: 2000})">+</button>
+    </div>
+  </div>
 </template>
 
 <script>
-import HelloWorld from './components/HelloWorld.vue'
+import TheNavbar from "@/components/TheNavbar.vue";
+import {mapGetters, mapMutations, mapActions} from 'vuex';
 
 export default {
-  name: 'App',
-  components: {
-    HelloWorld
-  }
+  methods: {
+    ...mapMutations('count', ['inc']),
+    ...mapActions('count', ['incCounterAsync'])
+    // incCounterAsync() {
+    //   this.$store.dispatch({
+    //     type: 'incCounterAsync',
+    //     val: 15,
+    //     delay: 2000
+    //   });
+    // }
+  },
+  computed: {
+    ...mapGetters(['upHeader']),
+    ...mapGetters('count', ['counter', 'doubleCounter']),
+  },
+  components: {TheNavbar}
 }
 </script>
 
 <style lang="scss">
-#app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-  margin-top: 60px;
-}
+
 </style>
